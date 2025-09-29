@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel Técnico</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+     
+      font-family: 'Segoe UI', sans-serif;
+      color: #ffffff;
+    }
+
+    body {
+      background: url('capa.jpg') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      justify-content: space-between;
+      grid-gap: 10px;
+      margin-top: 10px;
+    }
+
+    label {
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 6px;
+      border-radius: 6px;
+      border: none;
+      background-color: #2e2e2e;
+      color: #fff;
+      font-size: 0.85rem;
+    }
+
+    .poços {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .poço-btn {
+      flex: 1 0 30%;
+      min-width: 100px;
+      background-color: #8b0000;
+      border: none;
+      color: white;
+      padding: 8px;
+      font-weight: bold;
+      font-size: 0.8rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .poço-btn.ligado {
+      background-color: #00cc66;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 0.7rem;
+      opacity: 0.6;
+    }
+
+  .submit-btn {
+  background-color: #00aaff;
+  font-weight: bold;
+  border-radius: 6px;
+  font-size: 1rem;
+  padding: 10px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #0077cc;
+}
+  @media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  input, button {
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  .poço-btn {
+    flex: 1 0 100%;
+    font-size: 1rem;
+  }
+
+  .submit-btn {
+    font-size: 1.2rem;
+    padding: 12px;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+  }
+}
+  </style>
+</head>
+<body>
+  <form class="overlay" onsubmit="enviarDados(event)">
+    <h1>Painel Técnico - Monitoramento</h1>
+
+    <div class="grid">
+      <div>
+        <label>Data e Hora</label>
+        <input type="text" id="dataHora" name="dataHora" readonly>
+      </div>
+      <div>
+        <label>Nome</label>
+        <input type="text" name="nome" required>
+      </div>
+      <div><label>Gerador</label><input type="text" name="gerador"></div>
+      <div><label>GLP (%)</label><input type="text" name="glp" min="0" max="100" step="0.1"></div>
+      <div><label>Diesel (L)</label><input type="text" name="diesel" min="0" max="10000"></div>
+      <div><label>ETE</label><input type="text" name="ete"></div>
+      <div><label>Chiller</label><input type="text" name="chiller"></div>
+      <div><label>Temp Entrada (°C)</label><input type="text" name="tempEntrada" step="0.1"></div>
+      <div><label>Temp Saída (°C)</label><input type="text" name="tempSaida" step="0.1"></div>
+      <div><label>Caldeira (°C)</label><input type="text" name="caldeira" step="0.1"></div>
+      <div><label>Boiler (°C)</label><input type="text" name="boiler" step="0.1"></div>
+      <div><label>Cisterna 01 (m)</label><input type="text" name="cisterna01" step="0.01"></div>
+      <div><label>Cisterna 02 (m)</label><input type="text" name="cisterna02" step="0.01"></div>
+      <div><label>Piscina Infantil (°C)</label><input type="text" name="piscInf" step="0.1"></div>
+      <div><label>Piscina Semi-Olímpica (°C)</label><input type="text" name="piscSemi" step="0.1"></div>
+      <div><label>Piscina Interna (°C)</label><input type="text" name="piscInt" step="0.1"></div>
+      <div><label>Piscina Grand Pool (°C)</label><input type="text" name="piscGrand" step="0.1"></div>
+      <div><label>Piscina Fun Beach (°C)</label><input type="text" name="piscFun" step="0.1"></div>
+      <div><label>Piscina Acqua Kids (°C)</label><input type="text" name="piscKids" step="0.1"></div>
+    </div>
+
+    <div class="poços">
+      <button type="button" class="poço-btn" onclick="alternar(this)">Poço 1</button>
+      <button type="button" class="poço-btn" onclick="alternar(this)">Poço 3</button>
+      <button type="button" class="poço-btn" onclick="alternar(this)">Poço 4</button>
+      <button type="button" class="poço-btn" onclick="alternar(this)">Poço 5</button>
+      <button type="button" class="poço-btn" onclick="alternar(this)">Poço 7</button>
+      <button type="button" class="poço-btn" onclick="alternar(this)">Poço 9</button>
+       <button type="button" class="poço-btn" onclick="alternar(this)">Poço 10</button>
+    </div>
+
+    <input type="hidden" name="poços" id="poçosDados">
+    <button type="submit" class="submit-btn">Visualizar Dados</button>
+
+    <div class="footer">© Painel Técnico - Interface compacta | Versão 1.0</div>
+  </form>
+
+  <script>
+    document.getElementById('dataHora').value = new Date().toLocaleString('pt-BR');
+
+    function alternar(btn) {
+      btn.classList.toggle('ligado');
+    }
+
+    function enviarDados(event) {
+      event.preventDefault();
+      const form = event.target;
+      const poços = Array.from(document.querySelectorAll('.poço-btn')).map(btn => btn.classList.contains('ligado'));
+      document.getElementById('poçosDados').value = JSON.stringify(poços);
+
+      const params = new URLSearchParams(new FormData(form));
+      window.location.href = "pagina2.html?" + params.toString();
+    }
+  </script>
+</body>
+</html>

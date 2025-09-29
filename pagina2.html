@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="50">
+  <title>Visualização de Dados</title>
+  <style>
+    body {
+
+margin: 0;
+
+padding: 20px;
+
+font-family: 'Segoe UI', sans-serif;
+
+   background: url('capa.jpg') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+
+color: white;
+
+    h1, h2, h3 {
+      text-align: center;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+    }
+
+    h2 {
+      margin-top: 5px;
+      font-size: 1.5rem;
+      color: #66ffcc;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, auto);
+      gap: 6px 20px;
+      margin-top: 20px;
+      justify-content: space-between;
+      font-size: 1.4rem;
+    }
+
+    /* === POÇOS FIXADOS NAS EXTREMIDADES === */
+    .poços {
+      display: grid;
+      /*font-family: 'Courier New', Courier, monospace;
+      grid-template-columns: 1fr 1fr; /* 2 colunas */
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .poço-status {
+      padding: 8px;
+      font-weight: bold;
+      font-size: 0.8rem;
+      text-align: center;
+      border-radius: 8px;
+      background-color: #8b0000;
+      border-bottom: 5px solid #490000;
+    }
+
+    .poço-status.ligado {
+      background-color: #00cc66;
+      border-bottom: 5px solid #005028
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+        font-size: 1rem;
+      }
+
+      .poços {
+        grid-template-columns: 1fr; /* em telas pequenas, fica 1 coluna */
+      }
+
+      .poço-status {
+        font-size: 1rem;
+      }
+
+      h1 {
+        font-size: 1.4rem;
+      }
+
+      h2 {
+        font-size: 1.1rem;
+      }
+
+      h3 {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Painel Técnico - Monitoramento <br> Manutenção</h1>
+  <h2 id="dataHora"></h2>
+  <h3 id="nome"></h3>
+
+  <div class="grid" id="dados"></div>
+
+  <div class="poços" id="poçosStatus"></div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const campos = [
+      'gerador', 'glp', 'diesel', 'ete', 'chiller', 'tempEntrada', 'tempSaida',
+      'caldeira', 'boiler', 'cisterna01', 'cisterna02',
+      'piscInf', 'piscSemi', 'piscInt', 'piscGrand', 'piscFun', 'piscKids'
+    ];
+
+    document.getElementById("dataHora").innerText = params.get("dataHora") || "";
+    document.getElementById("nome").innerText = params.get("nome") || "";
+
+    const dadosDiv = document.getElementById("dados");
+    campos.forEach(campo => {
+      const valor = params.get(campo);
+      if (valor !== null) {
+        const label = campo.replace(/([A-Z])/g, ' $1')
+                           .replace(/pisc/, 'Piscina ')
+                           .replace(/^./, str => str.toUpperCase());
+        dadosDiv.innerHTML += `<div><strong>${label}:</strong> ${valor}</div>`;
+      }
+    });
+
+    const poços = JSON.parse(params.get("poços") || "[]");
+    const statusDiv = document.getElementById("poçosStatus");
+
+    // nomes reais dos poços
+    const nomesPoços = [1, 3, 4, 5, 7, 9, 10];
+
+    // limpa a div antes de preencher
+    statusDiv.innerHTML = "";
+
+    poços.forEach((ligado, i) => {
+      const classe = ligado ? 'ligado' : '';
+      const label = `Poço ${nomesPoços[i]}`;
+      statusDiv.innerHTML += `<div class="poço-status ${classe}">${label}</div>`;
+    });
+  </script>
+</body>
+</html>
